@@ -1,15 +1,16 @@
 import {
   View,
-  Text,
   ActivityIndicator,
   ScrollView,
   useWindowDimensions,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import { useSQLiteContext } from "expo-sqlite";
+import React from "react";
 import { Content } from "../../components/Content";
+import { useProducts } from "../../presentation/providers/ProductsProvider";
+import { Header } from "../../components/Header";
 
 const StackHome = () => {
+  const { isConnected } = useProducts();
   const { height } = useWindowDimensions();
 
   return (
@@ -20,7 +21,7 @@ const StackHome = () => {
       }}
     >
       <View style={{ marginHorizontal: 20, paddingTop: height * 0.08 }}>
-        <Header />
+        <Header isConnected={isConnected} />
         <Content />
       </View>
     </ScrollView>
@@ -28,30 +29,3 @@ const StackHome = () => {
 };
 
 export default StackHome;
-
-export const Fallback = () => {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <ActivityIndicator color={"white"} size={35} />
-    </View>
-  );
-};
-
-export function Header() {
-  const [version, setVersion] = useState("");
-  const db = useSQLiteContext();
-  useEffect(() => {
-    async function setup() {
-      const result = await db.getFirstAsync<{ "sqlite_version()": string }>(
-        "SELECT sqlite_version()"
-      );
-      setVersion(result["sqlite_version()"]);
-    }
-    setup();
-  }, [db]);
-  return (
-    <View style={{ marginVertical: 10 }}>
-      <Text style={{ color: "white" }}>SQLite version: {version}</Text>
-    </View>
-  );
-}

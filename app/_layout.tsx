@@ -11,10 +11,10 @@ import { Suspense, useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "../hooks/useColorScheme";
-import { getDatabasePath, migrateDbIfNeeded } from "../database/db";
+import { migrateDbIfNeeded } from "../database/db";
 import { SQLiteProvider } from "expo-sqlite";
-import { Fallback } from "./(tabs)";
 import { ProductsProvider } from "../presentation/providers/ProductsProvider";
+import { Fallback } from "../components/Fallback";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
