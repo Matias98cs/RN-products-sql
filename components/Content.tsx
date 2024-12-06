@@ -13,7 +13,16 @@ interface Producto {
 }
 
 export function Content() {
-  const { productos, deleteProduct } = useProducts();
+  const { productos, deleteProduct, deleteProductoSupaBase, isConnected } = useProducts();
+
+
+  const handleDeleteProduct = (id: number) => {
+    if (isConnected) {
+      deleteProductoSupaBase(id);
+    } else {
+      deleteProduct(id);
+    }
+  }
 
   return (
     <View
@@ -63,7 +72,7 @@ export function Content() {
                   justifyContent: "center",
                   alignContent: "center",
                 }}
-                onPress={() => deleteProduct(producto.id)}
+                onPress={() => handleDeleteProduct(producto.id)}
               >
                 <Ionicons
                   name="close-circle-outline"

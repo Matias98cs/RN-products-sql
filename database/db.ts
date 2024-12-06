@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { SQLiteDatabase } from "expo-sqlite";
 import * as FileSystem from "expo-file-system";
 

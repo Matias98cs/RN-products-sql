@@ -18,7 +18,7 @@ interface ProductForm {
 }
 
 const AddProductScreen = () => {
-  const { addProduct } = useProducts();
+  const { addProduct, addProductSupaBase, isConnected} = useProducts();
   const { height } = useWindowDimensions();
 
   const [productForm, setProductForm] = useState<ProductForm>({
@@ -47,7 +47,11 @@ const AddProductScreen = () => {
       categoria: productForm.categoria,
     };
 
-    addProduct(sendData);
+    if (isConnected) {
+      addProductSupaBase(sendData)
+    } else {
+      addProduct(sendData);
+    }
 
     setProductForm({ nombre: "", precio: "", categoria: "" });
     Alert.alert("Producto agregado con éxito");
