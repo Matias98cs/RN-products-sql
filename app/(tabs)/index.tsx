@@ -1,18 +1,20 @@
-import { View, Text, ActivityIndicator } from "react-native";
-import React, { useEffect, Suspense, useState } from "react";
 import {
-  deleteDatabase,
-  getDatabasePath,
-  migrateDbIfNeeded,
-} from "../database/db";
+  View,
+  Text,
+  ActivityIndicator,
+  ScrollView,
+  useWindowDimensions,
+} from "react-native";
+import React, { Suspense, useEffect, useState } from "react";
+import { getDatabasePath, migrateDbIfNeeded } from "../../database/db";
 import { SQLiteProvider, useSQLiteContext } from "expo-sqlite";
-import { Content } from "../components/Content";
+import { Content } from "../../components/Content";
 
-const App = () => {
+const StackHome = () => {
+  const { height } = useWindowDimensions();
   useEffect(() => {
     const initDatabase = async () => {
       const dbPath = await getDatabasePath();
-      console.log("Database Path:", dbPath);
     };
 
     initDatabase();
@@ -21,22 +23,29 @@ const App = () => {
   useEffect(() => {}, []);
 
   return (
-    <View style={{ flex: 1, marginHorizontal: 20, paddingTop: 10 }}>
-      <Suspense fallback={<Fallback />}>
-        <SQLiteProvider
-          databaseName="myDataBase.db"
-          onInit={migrateDbIfNeeded}
-          useSuspense={true}
-        >
-          <Header />
-          <Content />
-        </SQLiteProvider>
-      </Suspense>
-    </View>
+    <ScrollView
+      style={{
+        flex: 1,
+        backgroundColor: "#1B1833",
+      }}
+    >
+      <View style={{ marginHorizontal: 20, paddingTop: height * 0.08 }}>
+        <Suspense fallback={<Fallback />}>
+          <SQLiteProvider
+            databaseName="myDataBase.db"
+            onInit={migrateDbIfNeeded}
+            useSuspense={true}
+          >
+            <Header />
+            <Content />
+          </SQLiteProvider>
+        </Suspense>
+      </View>
+    </ScrollView>
   );
 };
 
-export default App;
+export default StackHome;
 
 export const Fallback = () => {
   return (
@@ -45,6 +54,7 @@ export const Fallback = () => {
     </View>
   );
 };
+
 export function Header() {
   const [version, setVersion] = useState("");
   const db = useSQLiteContext();

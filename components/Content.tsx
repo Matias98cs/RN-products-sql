@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import { useSQLiteContext } from "expo-sqlite";
 import { Ionicons } from "@expo/vector-icons";
+import { ThemedText } from "./ThemedText";
 
 interface Producto {
   id: number;
@@ -45,12 +46,13 @@ export function Content() {
         gap: 10,
       }}
     >
+      <ThemedText type="title">Productos</ThemedText>
       {productos.map((producto, index) => (
         <Pressable
           key={index}
           style={{
             padding: 10,
-            backgroundColor: "#1B1833",
+            backgroundColor: "#AB4459",
             borderRadius: 10,
             shadowColor: "#000",
           }}
