@@ -7,10 +7,14 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "../hooks/useColorScheme";
+import { getDatabasePath, migrateDbIfNeeded } from "../database/db";
+import { SQLiteProvider } from "expo-sqlite";
+import { Fallback } from "./(tabs)";
+import { ProductsProvider } from "../presentation/providers/ProductsProvider";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -26,17 +30,28 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
-
   if (!loaded) {
     return null;
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Suspense fallback={<Fallback />}>
+      <SQLiteProvider
+        databaseName="myDataBase.db"
+        onInit={migrateDbIfNeeded}
+        useSuspense={true}
+      >
+        <ProductsProvider>
+          <ThemeProvider
+            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          >
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            </Stack>
+            <StatusBar style="auto" />
+          </ThemeProvider>
+        </ProductsProvider>
+      </SQLiteProvider>
+    </Suspense>
   );
 }

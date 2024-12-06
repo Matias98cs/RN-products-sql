@@ -3,6 +3,7 @@ import { View, Text, Pressable } from "react-native";
 import { useSQLiteContext } from "expo-sqlite";
 import { Ionicons } from "@expo/vector-icons";
 import { ThemedText } from "./ThemedText";
+import { useProducts } from "../presentation/providers/ProductsProvider";
 
 interface Producto {
   id: number;
@@ -12,33 +13,7 @@ interface Producto {
 }
 
 export function Content() {
-  const db = useSQLiteContext();
-  const [productos, setProductos] = useState<Producto[]>([]);
-
-  useEffect(() => {
-    async function setup() {
-      const result = await db.getAllAsync<Producto>("SELECT * FROM productos");
-      setProductos(result);
-    }
-    setup();
-  }, [db]);
-
-  const handleDelete = async (producto: Producto) => {
-    console.log(producto);
-
-    if (producto.id) {
-      try {
-        await db.runAsync("DELETE FROM productos WHERE id = ?", producto.id);
-
-        const updatedProductos = await db.getAllAsync<Producto>(
-          "SELECT * FROM productos"
-        );
-        setProductos(updatedProductos);
-      } catch (error) {
-        console.error("Error al eliminar el producto:", error);
-      }
-    }
-  };
+  const { productos, deleteProduct } = useProducts();
 
   return (
     <View
@@ -88,7 +63,7 @@ export function Content() {
                   justifyContent: "center",
                   alignContent: "center",
                 }}
-                onPress={() => handleDelete(producto)}
+                onPress={() => deleteProduct(producto.id)}
               >
                 <Ionicons
                   name="close-circle-outline"

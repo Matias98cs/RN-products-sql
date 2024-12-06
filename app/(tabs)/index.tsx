@@ -12,15 +12,7 @@ import { Content } from "../../components/Content";
 
 const StackHome = () => {
   const { height } = useWindowDimensions();
-  useEffect(() => {
-    const initDatabase = async () => {
-      const dbPath = await getDatabasePath();
-    };
 
-    initDatabase();
-  }, []);
-
-  useEffect(() => {}, []);
 
   return (
     <ScrollView
@@ -30,16 +22,8 @@ const StackHome = () => {
       }}
     >
       <View style={{ marginHorizontal: 20, paddingTop: height * 0.08 }}>
-        <Suspense fallback={<Fallback />}>
-          <SQLiteProvider
-            databaseName="myDataBase.db"
-            onInit={migrateDbIfNeeded}
-            useSuspense={true}
-          >
-            <Header />
-            <Content />
-          </SQLiteProvider>
-        </Suspense>
+        <Header />
+        <Content />
       </View>
     </ScrollView>
   );
