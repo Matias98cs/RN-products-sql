@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { ThemedText } from "../../components/ThemedText";
-import { useSQLiteContext } from "expo-sqlite";
 import { useProducts } from "../../presentation/providers/ProductsProvider";
 
 interface ProductForm {

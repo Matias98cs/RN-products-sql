@@ -5,14 +5,12 @@ import {
   ScrollView,
   useWindowDimensions,
 } from "react-native";
-import React, { Suspense, useEffect, useState } from "react";
-import { getDatabasePath, migrateDbIfNeeded } from "../../database/db";
-import { SQLiteProvider, useSQLiteContext } from "expo-sqlite";
+import React, { useEffect, useState } from "react";
+import { useSQLiteContext } from "expo-sqlite";
 import { Content } from "../../components/Content";
 
 const StackHome = () => {
   const { height } = useWindowDimensions();
-
 
   return (
     <ScrollView

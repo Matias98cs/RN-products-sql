@@ -24,9 +24,9 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
 
     console.log("Versión actual de la base de datos:", currentDbVersion);
 
-    // if (currentDbVersion >= DATABASE_VERSION) {
-    //     return;
-    // }
+    if (currentDbVersion >= DATABASE_VERSION) {
+        return;
+    }
 
     if (currentDbVersion === 0) {
         console.log("Migrando la base de datos...");

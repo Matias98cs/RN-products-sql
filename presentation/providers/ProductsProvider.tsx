@@ -1,4 +1,5 @@
 import { useSQLiteContext } from "expo-sqlite";
+import NetInfo from '@react-native-community/netinfo';
 import {
   createContext,
   PropsWithChildren,
@@ -19,6 +20,7 @@ interface ProductsContextValue {
   reloadProducts: () => Promise<void>;
   addProduct: (producto: Omit<Producto, "id">) => Promise<void>;
   deleteProduct: (id: number) => Promise<void>;
+  isConnected: boolean;
 }
 
 const ProductsContext = createContext<ProductsContextValue | undefined>(
@@ -30,6 +32,19 @@ export const ProductsProvider: React.FC<React.PropsWithChildren> = ({
 }) => {
   const db = useSQLiteContext();
   const [productos, setProductos] = useState<Producto[]>([]);
+  const [isConnected, setIsConnected] = useState(true);
+
+ useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      console.log('Connection type', state.type);
+      console.log('Is connected?', state.isConnected);
+      setIsConnected(!!state.isConnected);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     reloadProducts();
@@ -73,7 +88,7 @@ export const ProductsProvider: React.FC<React.PropsWithChildren> = ({
 
   return (
     <ProductsContext.Provider
-      value={{ productos, reloadProducts, addProduct, deleteProduct }}
+      value={{ productos, reloadProducts, addProduct, deleteProduct, isConnected }}
     >
       {children}
     </ProductsContext.Provider>
