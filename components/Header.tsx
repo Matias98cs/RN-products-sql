@@ -2,10 +2,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useSQLiteContext } from "expo-sqlite";
 import { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-} from "react-native";
+import { View, Text } from "react-native";
 
 interface PropsHeader {
   isConnected: boolean;
@@ -32,7 +29,7 @@ export function Header({ isConnected }: PropsHeader) {
         alignItems: "center",
       }}
     >
-      <Text style={{ color: "white", flex: 1 }}>SQLite version: {version}</Text>
+      <Text style={{ flex: 1 }}>SQLite version: {version}</Text>
 
       <View
         style={{
@@ -43,10 +40,10 @@ export function Header({ isConnected }: PropsHeader) {
           alignItems: "center",
         }}
       >
-        <Text style={{ color: "white" }}>Internet:</Text>
+        <Text>Internet:</Text>
         <Ionicons
           name={`${isConnected ? "checkmark-circle" : "checkmark-circle"}`}
-          color={"white"}
+          color={"black"}
           size={25}
         />
       </View>

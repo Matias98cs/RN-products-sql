@@ -30,7 +30,7 @@ export function Content() {
         gap: 10,
       }}
     >
-      <ThemedText type="title" style={{ color: "white" }}>
+      <ThemedText type="title">
         Productos
       </ThemedText>
       {productos.map((producto, index) => (
