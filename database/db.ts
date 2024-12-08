@@ -41,23 +41,7 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
           categoria TEXT NOT NULL
         );
       `);
-
-        await db.runAsync(
-            "INSERT INTO productos (nombre, precio, categoria) VALUES (?, ?, ?)",
-            "Camiseta", 15.99, "Ropa"
-        );
-
-        await db.runAsync(
-            "INSERT INTO productos (nombre, precio, categoria) VALUES (?, ?, ?)",
-            "Zapatos", 49.99, "Calzado"
-        );
-
-        await db.runAsync(
-            "INSERT INTO productos (nombre, precio, categoria) VALUES (?, ?, ?)",
-            "Portátil", 799.99, "Electrónica"
-        );
         currentDbVersion = 1
-
         await db.execAsync(`PRAGMA user_version = ${currentDbVersion}`);
     }
 
@@ -73,34 +57,70 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
             categoria TEXT NOT NULL
           );
         `);
-
-        await db.runAsync(
-            "INSERT INTO productos (nombre, precio, categoria) VALUES (?, ?, ?)",
-            "Camiseta", 15.99, "Ropa"
-        );
-
-        await db.runAsync(
-            "INSERT INTO productos (nombre, precio, categoria) VALUES (?, ?, ?)",
-            "Zapatos", 49.99, "Calzado"
-        );
-
-        await db.runAsync(
-            "INSERT INTO productos (nombre, precio, categoria) VALUES (?, ?, ?)",
-            "Portátil", 799.99, "Electrónica"
-        );
-        
         currentDbVersion = 2
-
         await db.execAsync(`PRAGMA user_version = ${currentDbVersion}`);
     }
 
     if (currentDbVersion === 2) {
-        console.log(`Version ${currentDbVersion}`)
+        console.log(`Migrando la base - version ${currentDbVersion + 1}`);
+
+        await db.execAsync(`
+            CREATE TABLE IF NOT EXISTS expenses (
+                id TEXT PRIMARY KEY,
+                value NUMERIC NOT NULL,
+                category_id TEXT NOT NULL,
+                deleted BOOLEAN DEFAULT FALSE,
+                type_id TEXT NOT NULL,
+                description TEXT,
+                user_id TEXT NOT NULL,
+                created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `);
+
+        console.log("Tabla creada Expenses");
+
+        await db.execAsync(`
+            CREATE TABLE IF NOT EXISTS categories (
+                id TEXT PRIMARY KEY,
+                name TEXT NOT NULL,
+                icon TEXT NOT NULL,
+                color TEXT NOT NULL,
+                user_id TEXT NOT NULL,
+                created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `);
+
+        console.log("Tabla creada Categories");
+
+        await db.execAsync(`
+            CREATE TABLE IF NOT EXISTS users (
+                id TEXT PRIMARY KEY,
+                name TEXT NOT NULL,
+                email TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL, -- Contraseña hash
+                created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `);
+
+        console.log("Tabla creada Users");
+
+
+        await db.execAsync(`
+            CREATE TABLE IF NOT EXISTS currencies (
+                id TEXT PRIMARY KEY,
+                name TEXT NOT NULL,
+                value TEXT NOT NULL,
+                created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `);
+
+        console.log("Tabla creada Currencies");
+
+        currentDbVersion = 3
+        await db.execAsync(`PRAGMA user_version = ${currentDbVersion}`);
     }
 }
-
-// export async function deleteDatabase() {
-//     const dbPath = await getDatabasePath();
-//     await FileSystem.deleteAsync(dbPath);
-//     console.log("Base de datos eliminada.");
-// }
