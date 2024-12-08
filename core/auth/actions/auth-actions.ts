@@ -1,5 +1,5 @@
 import { supabase } from "../../../database/supabase/db.supabase";
-import { AuthResponse, DataAuthResponse, User } from '../interfaces/auth.interface';
+import { User } from '../interfaces/auth.interface';
 import { Session, User as SupabaseUser } from '@supabase/auth-js';
 
 
