@@ -9,11 +9,13 @@ import { Content } from "../../components/Content";
 import { useProducts } from "../../presentation/providers/ProductsProvider";
 import { Header } from "../../components/Header";
 import { useThemeColor } from "../../hooks/useThemeColor";
+import { ThemedText } from "../../components/ThemedText";
+import { useAuth } from "../../presentation/auth/hook/useAuth";
 
 const StackHome = () => {
-  const { isConnected } = useProducts();
+  const { user } = useAuth();
   const { height } = useWindowDimensions();
-  const colorPrimary = useThemeColor({}, "primary")
+  const colorPrimary = useThemeColor({}, "primary");
 
   return (
     <ScrollView
@@ -23,8 +25,10 @@ const StackHome = () => {
       }}
     >
       <View style={{ marginHorizontal: 20, paddingTop: height * 0.08 }}>
-        <Header isConnected={isConnected} />
-        <Content />
+        <ThemedText>{user?.email}</ThemedText>
+        <ThemedText style={{ marginTop: 20 }} type="title">
+          Gastos
+        </ThemedText>
       </View>
     </ScrollView>
   );

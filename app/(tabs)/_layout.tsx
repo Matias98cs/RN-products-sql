@@ -9,27 +9,27 @@ import { useEffect } from "react";
 export default function TabLayout() {
   const { authStatus, user, refreshToken } = useAuth();
 
-  useEffect(() => {
-    refreshToken();
-  }, []);
+  // useEffect(() => {
+  //   refreshToken();
+  // }, []);
 
-  if (authStatus === "checking") {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <ActivityIndicator size={30} />
-      </View>
-    );
-  }
+  // if (authStatus === "checking") {
+  //   return (
+  //     <View
+  //       style={{
+  //         flex: 1,
+  //         justifyContent: "center",
+  //         alignItems: "center",
+  //       }}
+  //     >
+  //       <ActivityIndicator size={30} />
+  //     </View>
+  //   );
+  // }
 
-  if (authStatus === "unauthenticated") {
-    return <Redirect href="/auth/login" />;
-  }
+  // if (authStatus === "unauthenticated") {
+  //   return <Redirect href="/auth/login" />;
+  // }
 
   return (
     <Tabs
@@ -58,32 +58,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "home" : "home-outline"}
-              size={24}
-              color={"black"}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="products"
-        options={{
-          title: "Productos",
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "list" : "list-outline"}
-              size={24}
-              color={"black"}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="addProduct"
-        options={{
-          title: "Agregar Producto",
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "add-circle" : "add-circle-outline"}
               size={24}
               color={"black"}
             />

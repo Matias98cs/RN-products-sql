@@ -43,18 +43,18 @@ export default function RootLayout() {
         useSuspense={true}
       >
         <AuthProvider>
-          <ProductsProvider>
-            <ThemeProvider
-              value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-            >
-              <Stack
-                screenOptions={{
-                  headerShown: false,
-                }}
-              ></Stack>
-              <StatusBar style="auto" />
-            </ThemeProvider>
-          </ProductsProvider>
+          {/* <ProductsProvider> */}
+          <ThemeProvider
+            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          >
+            <Stack
+              screenOptions={{
+                headerShown: false,
+              }}
+            ></Stack>
+            <StatusBar style="auto" />
+          </ThemeProvider>
+          {/* </ProductsProvider> */}
         </AuthProvider>
       </SQLiteProvider>
     </Suspense>

@@ -33,9 +33,9 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   const [user, setUser] = useState<User | null>(null);
   const [authStatus, setAuthStatus] = useState<AuthStatus>("unauthenticated");
 
-  useEffect(() => {
-    refreshToken();
-  }, []);
+  // useEffect(() => {
+  //   refreshToken();
+  // }, []);
 
   const refreshToken = async (): Promise<boolean> => {
     try {
