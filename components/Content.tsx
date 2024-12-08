@@ -13,8 +13,8 @@ interface Producto {
 }
 
 export function Content() {
-  const { productos, deleteProduct, deleteProductoSupaBase, isConnected } = useProducts();
-
+  const { productos, deleteProduct, deleteProductoSupaBase, isConnected } =
+    useProducts();
 
   const handleDeleteProduct = (id: number) => {
     if (isConnected) {
@@ -22,7 +22,7 @@ export function Content() {
     } else {
       deleteProduct(id);
     }
-  }
+  };
 
   return (
     <View
@@ -30,7 +30,9 @@ export function Content() {
         gap: 10,
       }}
     >
-      <ThemedText type="title">Productos</ThemedText>
+      <ThemedText type="title" style={{ color: "white" }}>
+        Productos
+      </ThemedText>
       {productos.map((producto, index) => (
         <Pressable
           key={index}

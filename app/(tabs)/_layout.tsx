@@ -1,19 +1,46 @@
 import { Ionicons } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import { useProducts } from "../../presentation/providers/ProductsProvider";
+import { useAuth } from "../../presentation/auth/hook/useAuth";
+import { ActivityIndicator, View } from "react-native";
+import { useEffect } from "react";
 
 export default function TabLayout() {
+  const { authStatus, user, refreshToken } = useAuth();
+
+  useEffect(() => {
+    refreshToken();
+  }, []);
+
+  if (authStatus === "checking") {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size={30} />
+      </View>
+    );
+  }
+
+  if (authStatus === "unauthenticated") {
+    return <Redirect href="/auth/login" />;
+  }
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "white",
+        tabBarActiveTintColor: "black",
         tabBarInactiveTintColor: "#A6A6A6",
         headerShadowVisible: false,
         headerShown: false,
-        headerTintColor: "white",
+        headerTintColor: "black",
         tabBarStyle: {
-          backgroundColor: "black",
+          backgroundColor: "white",
         },
         tabBarLabelStyle: {
           fontWeight: "bold",
@@ -32,7 +59,7 @@ export default function TabLayout() {
             <Ionicons
               name={focused ? "home" : "home-outline"}
               size={24}
-              color={"white"}
+              color={"black"}
             />
           ),
         }}
@@ -45,7 +72,7 @@ export default function TabLayout() {
             <Ionicons
               name={focused ? "list" : "list-outline"}
               size={24}
-              color={"white"}
+              color={"black"}
             />
           ),
         }}
@@ -58,7 +85,7 @@ export default function TabLayout() {
             <Ionicons
               name={focused ? "add-circle" : "add-circle-outline"}
               size={24}
-              color={"white"}
+              color={"black"}
             />
           ),
         }}

@@ -18,7 +18,7 @@ interface ProductForm {
 }
 
 const AddProductScreen = () => {
-  const { addProduct, addProductSupaBase, isConnected} = useProducts();
+  const { addProduct, addProductSupaBase, isConnected } = useProducts();
   const { height } = useWindowDimensions();
 
   const [productForm, setProductForm] = useState<ProductForm>({
@@ -48,7 +48,7 @@ const AddProductScreen = () => {
     };
 
     if (isConnected) {
-      addProductSupaBase(sendData)
+      addProductSupaBase(sendData);
     } else {
       addProduct(sendData);
     }
@@ -65,12 +65,14 @@ const AddProductScreen = () => {
       }}
     >
       <View style={{ marginHorizontal: 20, paddingTop: height * 0.08 }}>
-        <ThemedText type="title">Agregar Productos</ThemedText>
+        <ThemedText type="title" style={{ color: "white" }}>
+          Agregar Productos
+        </ThemedText>
       </View>
 
       <View style={{ marginHorizontal: 20, paddingTop: 10, gap: 15 }}>
         <View style={{ gap: 4 }}>
-          <ThemedText>Precio</ThemedText>
+          <ThemedText style={{ color: "white" }}>Precio</ThemedText>
           <TextInput
             style={{
               height: 60,
@@ -90,7 +92,7 @@ const AddProductScreen = () => {
           />
         </View>
         <View style={{ gap: 4 }}>
-          <ThemedText>Nombre</ThemedText>
+          <ThemedText style={{ color: "white" }}>Nombre</ThemedText>
           <TextInput
             style={{
               height: 60,
@@ -111,7 +113,7 @@ const AddProductScreen = () => {
         </View>
 
         <View style={{ gap: 4 }}>
-          <ThemedText>Categoría</ThemedText>
+          <ThemedText style={{ color: "white" }}>Categoría</ThemedText>
           <TextInput
             style={{
               height: 60,
@@ -141,7 +143,7 @@ const AddProductScreen = () => {
             }}
             onPress={() => handleSavProduct()}
           >
-            <ThemedText>Guardar Producto</ThemedText>
+            <ThemedText style={{ color: "white" }}>Guardar Producto</ThemedText>
           </Pressable>
         </View>
       </View>
