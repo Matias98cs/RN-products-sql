@@ -15,6 +15,7 @@ import { migrateDbIfNeeded } from "../database/db";
 import { SQLiteProvider } from "expo-sqlite";
 import { ProductsProvider } from "../presentation/providers/ProductsProvider";
 import { Fallback } from "../components/Fallback";
+import { AuthProvider } from "../presentation/auth/provider/AuthPriver";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -41,16 +42,20 @@ export default function RootLayout() {
         onInit={migrateDbIfNeeded}
         useSuspense={true}
       >
-        <ProductsProvider>
-          <ThemeProvider
-            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-          >
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            </Stack>
-            <StatusBar style="auto" />
-          </ThemeProvider>
-        </ProductsProvider>
+        <AuthProvider>
+          <ProductsProvider>
+            <ThemeProvider
+              value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+            >
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                }}
+              ></Stack>
+              <StatusBar style="auto" />
+            </ThemeProvider>
+          </ProductsProvider>
+        </AuthProvider>
       </SQLiteProvider>
     </Suspense>
   );

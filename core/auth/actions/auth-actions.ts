@@ -23,7 +23,7 @@ const mapSupabaseUserToUser = (supabaseUser: SupabaseUser): User => {
 };
 
 
-export const authCreateUser = async (email: string, password: string): Promise<User | null> => {
+export const authCreateUser = async (email: string, password: string) => {
     const lowerCaseEmail = email.toLowerCase();
 
     try {

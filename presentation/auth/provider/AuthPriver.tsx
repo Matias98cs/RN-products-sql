@@ -12,10 +12,10 @@ export interface AuthContextValue {
   user: User | null;
   authStatus: AuthStatus;
 
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<boolean>;
   setUser: (user: User | null) => void;
   setAuthStatus: (authStatus: AuthStatus) => void;
-  register: (email: string, password: string) => void;
+  register: (email: string, password: string) => Promise<boolean>;
 }
 
 export const AuthContext = createContext<AuthContextValue | undefined>(
@@ -28,34 +28,42 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   const [user, setUser] = useState<User | null>(null);
   const [authStatus, setAuthStatus] = useState<AuthStatus>("unauthenticated");
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string): Promise<boolean> => {
     try {
       setAuthStatus("checking");
       const userData = await authSingIn(email, password);
       if (userData) {
+        console.log(userData);
         setUser(userData.user);
         setAuthStatus("authenticated");
+        return true;
       } else {
         Alert.alert("Error", "Error al iniciar sesión");
         setAuthStatus("unauthenticated");
+        return false;
       }
     } catch (error) {
       console.error("Error durante el login:", error);
       setAuthStatus("unauthenticated");
+      return false;
     }
   };
 
-  const register = async (email: string, password: string) => {
+  const register = async (
+    email: string,
+    password: string
+  ): Promise<boolean> => {
     try {
       const userData = await authCreateUser(email, password);
 
       if (userData) {
-        console.log("usuario creado");
-        console.log(useState);
+        return true;
+      } else {
+        return false;
       }
     } catch (error) {
       console.error("Error durante el registro:", error);
-      setAuthStatus("unauthenticated");
+      return false;
     }
   };
 
