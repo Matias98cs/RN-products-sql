@@ -53,7 +53,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
           return true;
         }
       } else {
-        console.error("No se encontró el token de refresco");
+        // console.error("No se encontró el token de refresco");
         setAuthStatus("unauthenticated");
         await SecureStorageAdapter.deleteItem("access_token");
         await SecureStorageAdapter.deleteItem("refresh_token");

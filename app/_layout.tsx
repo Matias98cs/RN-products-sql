@@ -52,7 +52,7 @@ export default function RootLayout() {
                   headerShown: false,
                 }}
               ></Stack>
-              <StatusBar style="light" />
+              <StatusBar style="auto" />
             </ThemeProvider>
           </ProductsProvider>
         </AuthProvider>
