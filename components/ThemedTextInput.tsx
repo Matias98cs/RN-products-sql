@@ -18,7 +18,7 @@ const ThemedTextInput = ({ icon, style, ...rest }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const inputRef = useRef<TextInput>(null);
 
-  const primaryColor = useThemeColor({}, "primary");
+  const primaryColor = useThemeColor({}, "secundary");
   const textColor = useThemeColor({}, "text");
 
   return (

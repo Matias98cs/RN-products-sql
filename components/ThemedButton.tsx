@@ -15,24 +15,24 @@ interface Props extends PressableProps {
 }
 
 const ThemedButton = ({ children, icon, ...rest }: Props) => {
-  const primaryColor = useThemeColor({}, "primary");
+  const secundaryColor = useThemeColor({}, "secundary");
   return (
     <Pressable
       style={({ pressed }) => [
         {
-          backgroundColor: pressed ? primaryColor + "90" : primaryColor,
+          backgroundColor: pressed ? secundaryColor + "90" : secundaryColor,
         },
         styles.button,
       ]}
       {...rest}
     >
-      <Text style={{ color: "white" }}>{children}</Text>
+      <Text style={{ color: "black" }}>{children}</Text>
 
       {icon && (
         <Ionicons
           name={icon}
           size={25}
-          color="white"
+          color="black"
           style={{ marginHorizontal: 5 }}
         />
       )}

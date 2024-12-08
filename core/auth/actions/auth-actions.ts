@@ -35,11 +35,9 @@ export const authCreateUser = async (email: string, password: string) => {
     });
 
     if (error) {
-      console.error(`Error al crear el usuario: ${error.message}`);
+      console.log(`Error al crear el usuario: ${error.message}`);
       throw error;
     }
-
-    console.log("Usuario creado:", data);
 
     if (data && data.user) {
       return mapSupabaseUserToUser(data.user);
@@ -47,7 +45,7 @@ export const authCreateUser = async (email: string, password: string) => {
 
     return null;
   } catch (error) {
-    console.error("Error en authCreateUser:", error);
+    console.log("Error en authCreateUser:", error);
     throw new Error(`Error al crear el usuario: ${error}`);
   }
 };
@@ -66,7 +64,6 @@ export const authSingIn = async (email: string, password: string) => {
     }
 
     if (data) {
-      console.log(data);
       const user = mapSupabaseUserToUser(data.user);
       return returnUserToken({ user, session: data.session });
     }
@@ -93,7 +90,7 @@ export const authRefreshSession = async (refresh_token: string) => {
     const user = mapSupabaseUserToUser(data.user);
     return returnUserToken({ user, session: data.session });
   } catch (error) {
-    console.error("Error al refrescar la sesión", error);
+    console.log("Error al refrescar la sesión", error);
     throw new Error(`Error al refrescar la sesión: ${error}`);
   }
 };
@@ -105,6 +102,6 @@ export const AuthlogOut = async () => {
     await SecureStorageAdapter.deleteItem("refresh_token");
     console.log("Sesión cerrada");
   } catch (error) {
-    console.error("Error al cerrar sesión:", error);
+    console.log("Error al cerrar sesión:", error);
   }
 };
